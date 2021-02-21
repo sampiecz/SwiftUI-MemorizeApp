@@ -8,10 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    // Don't actually call it viewModel, call it something
+    // more descriptive as to the name of the class.
+    // viewModel helps elaborate framework basics initially.
+    // Easier to understand what class is doing what part.
+    // Same can be said in EmojiMemoryGame.swift where a
+    // var is called model, wouldn't normally be called
+    // model, would maybe called memoryGame or something.
+    var viewModel: EmojiMemoryGame
     var body: some View {
         HStack {
-            ForEach(0..<4) { index in
-                CardView(isFaceUp: false)
+            ForEach(viewModel.cards) { card in
+                CardView(card: card)
             }
         }
             .padding()
@@ -21,36 +29,25 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var isFaceUp: Bool = false
+    var card: MemoryGame<String>.Card
     
     var body: some View {
         ZStack {
-            if isFaceUp {
+            if card.isFaceUp {
                 RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
                 RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3)
-                Text("🧽")
+                Text(card.content)
             } else {
                 RoundedRectangle(cornerRadius: 10.0).fill()
             }
-
         }
     }
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(viewModel: EmojiMemoryGame())
     }
 }
